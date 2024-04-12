@@ -24,7 +24,7 @@ module.exports.run = async function({
   try {
     const {
       data
-    } = await axios.get(`https://api.easy-api.online/api/blackbox?query=Hi${encodeURIComponent(input)}`);
+    } = await axios.get(`https://api.easy-api.online/v1/globalgpt?q=Hi${encodeURIComponent(input)}`);
     const response = data.response;
     api.sendMessage(response + '\n\nBot Created by Sunnellzy Rebano:   Create Your Own Bot Here https://auto-bot-sunnel-official.onrender.com', event.threadID, event.messageID);
   } catch (error) {
