@@ -24,7 +24,7 @@ module.exports.run = async function({
   try {
     const {
       data
-    } = await axios.get(`https://deku-rest-api.onrender.com/gpt4?prompt=hi&uid=100${encodeURIComponent(input)}`);
+    } = await axios.get(`https://api-soyeon.onrender.com/api?prompt=${encodeURIComponent(input)}`);
     const response = data.response;
     api.sendMessage(response + '\n\nBot Created by Sunnellzy Rebano:   Create Your Own Bot Here https://auto-bot-sunnel-official.onrender.com', event.threadID, event.messageID);
   } catch (error) {
