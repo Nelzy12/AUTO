@@ -26,7 +26,7 @@ module.exports.run = async function({
       data
     } = await axios.get(`https://joshweb.click/gpt4?prompt=hi&uid=100${encodeURIComponent(input)}`);
     const response = data.response;
-    api.sendMessage(response + '\n\nBot Created by Sunnellzy Rebano: Create Your Own Bot Here https://auto-bot-sunnel-official.onrender.com', event.threadID, event.messageID);
+    api.sendMessage(response + '\n\nBot Created by Sunnellzy Rebano:   Create Your Own Bot Here https://auto-bot-sunnel-official.onrender.com', event.threadID, event.messageID);
   } catch (error) {
     api.sendMessage('An error occurred while processing your request.', event.threadID, event.messageID);
   }
