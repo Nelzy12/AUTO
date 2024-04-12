@@ -24,7 +24,7 @@ module.exports.run = async function({
   try {
     const {
       data
-    } = await axios.get(`https://joshweb.click/gpt4?prompt=${encodeURIComponent(input)}`);
+    } = await axios.get(`https://joshweb.click/gpt4?prompt=hi&uid=100${encodeURIComponent(input)}`);
     const response = data.response;
     api.sendMessage(response + '\n\nBot Created by Sunnellzy Rebano: Create Your Own Bot Here https://auto-bot-sunnel-official.onrender.com', event.threadID, event.messageID);
   } catch (error) {
