@@ -29,13 +29,13 @@ module.exports.run = async function({
 
   const userName = senderId ? `(${senderId})` : '';
 
-  api.sendMessage(`Answering your question "${input}"\n\nthe question request on\ndate: ${currentDate}\nmonth: ${currentMonth}`, event.threadID, event.messageID);
+  api.sendMessage(`\n🔎Answering your question...\n\n"${input}"\n\n📝the question request on\n\ndate: ${currentDate}\nmonth: ${currentMonth}`, event.threadID, event.messageID);
 
   try {
     const { data } = await axios.get(`https://api-soyeon.onrender.com/api?prompt=${encodeURIComponent(input)}`);
     const response = data.response;
     if (response) {
-            api.sendMessage(`${response}\n\n📝 Question Asked by: ${userName}\n\nCreated By SunnelRebano`, event.threadID, event.messageID);
+            api.sendMessage(`${response}\n\n👤 Question Asked by: ${userName}\n\nCreated By SunnelRebano\n\nCreate Your Own Bot Here\nhttps://auto-bot-sunnel-official.onrender.com`, event.threadID, event.messageID);
   } catch (error) {
     api.sendMessage('An error occurred while processing your request.', event.threadID, event.messageID);
   }
