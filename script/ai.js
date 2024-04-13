@@ -29,7 +29,7 @@ module.exports.run = async function({
 
   const userName = senderId ? `(${senderId})` : '';
 
-  api.sendMessage(`answering your question "${input}" request on\ndate: ${currentDate}\nmonth: ${currentMonth}`, event.threadID, event.messageID);
+  api.sendMessage(`Answering your question "${input}"\n\nthe question request on\ndate: ${currentDate}\nmonth: ${currentMonth}`, event.threadID, event.messageID);
 
   try {
     const { data } = await axios.get(`https://api-soyeon.onrender.com/api?prompt=${encodeURIComponent(input)}`);
