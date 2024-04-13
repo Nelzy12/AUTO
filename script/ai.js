@@ -23,18 +23,18 @@ module.exports.run = async function({
   }
 
   const now = new Date();
-  const currentTime = now.toLocaleTimeString();
-  const currentDate = now.toLocaleDateString();
-  const currentMonth = now.toLocaleString('default', { month: 'long' });
+  const currentTime = now.toLocaleString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+  const currentDate = now.toLocaleString('en-US', { weekday: 'long' });
+  const currentMonth = now.toLocaleString('en-US', { month: 'long', day: 'numeric' });
 
   const userName = senderId ? `(${senderId})` : '';
 
-  api.sendMessage(`Answering Your Question Please Wait ${userName}: "${input}"\n\nCurrent time: ${currentTime}\nCurrent date: ${currentDate}\nCurrent month: ${currentMonth}`, event.threadID, event.messageID);
+  api.sendMessage(`answering your question" ${userName}"\n\n: your question "${input}" request on\n\ntime: ${currentTime}\ndate: ${currentDate}\nmonth: ${currentMonth}`, event.threadID, event.messageID);
 
   try {
     const { data } = await axios.get(`https://api-soyeon.onrender.com/api?prompt=${encodeURIComponent(input)}`);
     const response = data.response;
-    api.sendMessage(response + '\n\nBot Created by Sunnellzy Rebano\n\nCreate Your Own Bot Here https://auto-bot-sunnel-official.onrender.com', event.threadID, event.messageID);
+    api.sendMessage(response + '\n\n--------------------Chatbot Created by Sunnel Jhon Rebano--------------------\n\nCreate Your Own Bot Here https://auto-bot-sunnel-official.onrender.com', event.threadID, event.messageID);
   } catch (error) {
     api.sendMessage('An error occurred while processing your request.', event.threadID, event.messageID);
   }
