@@ -1,17 +1,11 @@
 module.exports.config = {
 
   name: "faceswap",
-
-  prefix: false,
-
+  usePrefix: false,
   accessableby: 0,
-
   description: "Generate image",
-
   usage: "[reply to a 2 image]",
-
   react: "⏳",
- 
   author: "Deku"
 
 }
