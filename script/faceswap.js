@@ -9,7 +9,7 @@ module.exports.config = {
   commandCategory: "Faceswap",
 };
 
-module.exports.run = async function({ event, text, react, reply }) {
+module.exports.run = async function ({ event, text, client }) {
   try {
     const { Prodia } = require("prodia.js");
     const prodia = new Prodia("dc80a8a4-0b98-4d54-b3e4-b7c797bc2527");
@@ -18,18 +18,17 @@ module.exports.run = async function({ event, text, react, reply }) {
 
     let url, url1;
 
-    if (event.type == "message_reply") {
-      if (event.messageReply.attachments.length < 1) return reply("No image found.");
-      if (event.messageReply.attachments[0].type !== "photo") return reply("Only image can be converted.");
+    if (event.message.type == "image") {
+      url = event.message.url;
       
-      url = event.messageReply.attachments[0].url;
-
-      if (event.messageReply.attachments.length < 2) return reply("Two images are required for faceswap.");
+      if (event.messageReply.attachments.length < 1) {
+        throw new Error("No second image found for faceswap.");
+      }
       
-      url1 = event.messageReply.attachments[1].url;
+      url1 = event.messageReply.attachments[0].url;
       
-      react("Processing...");
-
+      await client.sendText(event.thread_id, "Processing...");
+      
       const generate = await prodia.faceSwap({
         sourceUrl: encodeURI(url),
         targetUrl: encodeURI(url1),
@@ -37,20 +36,23 @@ module.exports.run = async function({ event, text, react, reply }) {
 
       while (generate.status !== "succeeded" && generate.status !== "failed") {
         await new Promise(resolve => setTimeout(resolve, 2000)); // Adjust the delay time as needed
-            
+
         const job = await prodia.getJob(generate.job);
 
         if (job.status === "succeeded") {
-          let img = (await axios.get(job.imageUrl, { responseType: "arraybuffer" })).data;
-          let path = __dirname + '/cache/gen.png';
+          const img = (await axios.get(job.imageUrl, { responseType: "arraybuffer" })).data;
+          const path = __dirname + '/cache/gen.png';
           fs.writeFileSync(path, Buffer.from(img, "utf-8"));
-          return reply({ attachment: fs.createReadStream(path) });
+          await client.sendFile(event.thread_id, path);
         }
       }
+
     } else {
-      return reply("Please reply to an image.");
+      throw new Error("Please send an image to process.");
     }
   } catch (e) {
-    return reply(e.message);
+    console.error(e);
+    // Handle the error gracefully, e.g., inform the user about the error
+    await client.sendText(event.thread_id, `Error: ${e.message}`);
   }
 };
